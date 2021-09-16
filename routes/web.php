@@ -1,32 +1,13 @@
 <?php
 
+use App\Http\Controllers\PostController;
 use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 use App\Models\Post;
 use App\Models\User;
 
-Route::get('/', function () {
-
-    //\Illuminate\Support\Facades\DB::listen(function ($query){
-    //    logger($query->sql, $query->bindings);
-    //});
-
-    return view('posts', [
-        'posts' => Post::latest()->get(),
-        'categories' => Category::all()
-    ]);
-
-})->name('home');
-
-Route::get('/posts/{postt}', function (Post $postt) {
-
-    return view('post', [
-        'post' => $postt //'<h1>Hello Worlldd!!</h1>'
-    ]);
-
-})->where('post', '[A-z_\-]+'); //whereAlpha('post') whereNumber('post');
-
-
+Route::get('/', [PostController::class, 'index'])->name('home');
+Route::get('/posts/{post}', [PostController::class, 'show'])->where('post', '[A-z_\-]+'); 
 
 Route::get('/categories/{category:slug}', function (Category $category) {
 
